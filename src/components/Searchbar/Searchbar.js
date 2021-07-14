@@ -2,14 +2,11 @@ import React from 'react';
 import s from './Searchbar.module.css';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PropTypes from 'prop-types';
 
 
 export default class Searchbar extends React.Component {
     state = {
-        // showModal: false,
-        // image: null,
-        // imageName: '',
-
     searchQuery: '',
     };
 
@@ -30,8 +27,6 @@ export default class Searchbar extends React.Component {
         this.setState({ searchQuery: '' });
     }
 
-
-  
 
     
     render() {
@@ -56,9 +51,10 @@ export default class Searchbar extends React.Component {
             </header>)
     }
 }
-/* 
-
-Searchbar.propTypes = {
-  onSubmit: PropTypes.string.isRequired,
+ Searchbar.propTypes = {
+     onSubmit: PropTypes.string.isRequired,
+     handleNameChange: PropTypes.func.isRequired,
+     handleNameChange: PropTypes.func.isRequired,
+     
 };
- */
+ 

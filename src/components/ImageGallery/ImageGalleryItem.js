@@ -1,5 +1,6 @@
 import React from 'react';
 import s from './ImageGallery.module.css';
+import PropTypes from 'prop-types';
 
 
 const ImageGalleryItem = ({webformatURL, openModal, largeImageURL, tag, id }) => {
@@ -11,6 +12,11 @@ const ImageGalleryItem = ({webformatURL, openModal, largeImageURL, tag, id }) =>
   )
   }
 
-
 export default ImageGalleryItem;
+
+ImageGalleryItem.propTypes = {
+  webformatURL: PropTypes.string.isRequired,
+  tag: PropTypes.string.isRequired,
+  openModal: PropTypes.func.isRequired,
+};
    

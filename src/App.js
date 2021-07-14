@@ -1,14 +1,11 @@
 import React from "react";
-
-
 import Searchbar from './components/Searchbar/Searchbar';
 import { ToastContainer} from "react-toastify";
 import ImageGallery from './components/ImageGallery/ImageGallery';
-/* import Loader from './components/Loader/Loader'; */
 import Button from './components/Button/Button';
 import  Modal  from './components/Modal/Modal';
 import s from './App.module.css';
-import Loader from "react-loader-spinner";
+import LoaderSpiner from "./components/Loader/Loader";
 
 
 
@@ -16,21 +13,23 @@ import Loader from "react-loader-spinner";
 class App extends React.Component {
   state = {
     showModal: false,
-    imageName : '',
+  
     images: [],
     page: 1,
     searchQuery: '',
     error: null,
     status: 'idle',
     selectedImage: null,
+    
 
   };
 
 
   componentDidUpdate(prevProps, prevState) {
-
-    if (prevState.searchQuery !== this.state.searchQuery) {
-      /*  this.setState({status: 'pending'})  */
+  const { searchQuery, page } = this.state;
+    if (prevState.searchQuery !== searchQuery || prevState.page !== page)
+{
+    
             
       const API_KEY = "21675881-9f2314d809854342b3af65054";
       const BASE_URL = "https://pixabay.com/api";
@@ -48,11 +47,14 @@ class App extends React.Component {
         .then(data => data.hits)
         .then(arrayImage => this.setState(prevState => ({ images: [...prevState.images, ...arrayImage], })))
           .catch(error => this.setState({ error }))
-  
     }
-    
+    if (prevState.images !== this.state.images) {
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: 'smooth',
+      });
+    }
   }
-  
 
   resetState = () => {
     this.setState({
@@ -84,31 +86,9 @@ class App extends React.Component {
   };
 
 
-
-/* 
-  toggleModal = (e) => {
-   
-    this.setState(({ showModal, selectedImage: { src, alt } }) => ({ showModal: !showModal, selectedImage: { src, alt } }))
-    }
-     */
-
-
   render() {
     const { searchQuery, showModal, error, status, images, selectedImage } = this.state;
-    
-/*      if (status === 'idle') {
-          return <h2>Type the name of the image</h2>}
-
-  if (status === 'pending') {
-  return <h2>Waiting...</h2>
-  }
-
-if (status === 'rejected') {
-    return <h1>{error.message}</h1>} 
-  
-
-  if (status === 'resolved') {
- */
+   
     return (
       
       <div>
@@ -118,25 +98,18 @@ if (status === 'rejected') {
         {searchQuery && <ImageGallery openModal={this.openModal} images={images}/>}
         {!searchQuery && <h2>Type the name of the image</h2>}
           <ToastContainer />
-        <Loader
-         type="Puff"
-        color="#00BFFF"
-        height={100}
-        width={100}
-        timeout={3000} />
-      
+        {/* this.componentDidUpdate && */ <LoaderSpiner />}
+        
  {images.length > 0 && <Button onClick={this.onLoadMore} />}
         
 
         {showModal && <Modal image={selectedImage} onClose={this.closeModal}  >
-      
         </ Modal >}
-      
       </div>
     );
   }
  }
 
-/* }  */
+
 
 export default App;
