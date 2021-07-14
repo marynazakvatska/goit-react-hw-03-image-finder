@@ -1,44 +1,38 @@
 import React from 'react';
 import s from './Searchbar.module.css';
 import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default class Searchbar extends React.Component {
     state = {
-        showModal: false,
-        image: null,
-        imageName: '',
+        // showModal: false,
+        // image: null,
+        // imageName: '',
+
+    searchQuery: '',
     };
 
 
     handleNameChange = e => {
-        this.setState({ imageName: e.currentTarget.value.toLowerCase() });
+        this.setState({ searchQuery: e.currentTarget.value.toLowerCase() });
 }
 
 
     handleSubmit = e => {
         e.preventDefault();
 
-        if (this.state.imageName.trim() === '') {
+        if (this.state.searchQuery.trim() === '') {
              return  toast.error('Enter the name');
-/* 
 
-toast.error('🦄 Wow so easy!', {
-position: "bottom-center",
-autoClose: 5000,
-hideProgressBar: false,
-closeOnClick: true,
-pauseOnHover: true,
-draggable: true,
-progress: undefined,
-});
- */
-
-         
         }
-        this.props.onSubmit(this.state.imageName);
-        this.setState({ imageName: '' });
+        this.props.onSubmit(this.state.searchQuery);
+        this.setState({ searchQuery: '' });
     }
+
+
+  
+
     
     render() {
     
@@ -50,7 +44,7 @@ progress: undefined,
                     </button>
 
                     <input
-                        value={this.state.imageName}
+                        value={this.state.searchQuery}
                         onChange={this.handleNameChange}
                         className={s.searchForm_input}
                         type="text"

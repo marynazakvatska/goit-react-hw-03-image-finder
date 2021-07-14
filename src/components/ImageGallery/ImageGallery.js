@@ -4,7 +4,7 @@ import ImageGalleryItem from './ImageGalleryItem'
 
 
 
-export default class ImageGallery extends React.Component {
+/* export default class ImageGallery extends React.Component {
     state = {
     activeImgId: 0,
     };
@@ -12,21 +12,24 @@ export default class ImageGallery extends React.Component {
 
     setActiveId = id => {
         this.setState({activeImgId: id})
-    }
- 
-
-    render() {
+    } */
+const ImageGallery = ({ images, openModal }) =>  {
+   
         return (
             <ul className={s.imageGallery}>
-               {/*  {images.map(({ webformatURL, largeImageURL}, id) => {
+         {images.map(({ webformatURL, largeImageURL, tag, id }) => {
                     return (
-                        <ImageGalleryItem key={id}
-                            onClick = {() => this.setActiveId(id)}
+                        <ImageGalleryItem key={id} webformatURL={webformatURL} largeImageURL={largeImageURL} tag={tag}
+                            openModal={() => openModal(webformatURL, largeImageURL, tag, id)}
                         />
                     )
-                })} */}
+                })} 
             </ul>
         )
     }
+ 
 
-}
+
+
+ 
+export default ImageGallery;
