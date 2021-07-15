@@ -20,16 +20,19 @@ class App extends React.Component {
     error: null,
     status: 'idle',
     selectedImage: null,
+    isLoading: true , ///!!!!
     
 
   };
 
 
   componentDidUpdate(prevProps, prevState) {
-  const { searchQuery, page } = this.state;
+ /*   this.setState({ isLoading: false })  */ //!!!!!!
+    
+  const { searchQuery, page, isLoading } = this.state;
     if (prevState.searchQuery !== searchQuery || prevState.page !== page)
 {
-    
+  
             
       const API_KEY = "21675881-9f2314d809854342b3af65054";
       const BASE_URL = "https://pixabay.com/api";
@@ -46,7 +49,8 @@ class App extends React.Component {
      
         .then(data => data.hits)
         .then(arrayImage => this.setState(prevState => ({ images: [...prevState.images, ...arrayImage], })))
-          .catch(error => this.setState({ error }))
+        .catch(error => this.setState({ error }))
+      
     }
     if (prevState.images !== this.state.images) {
       window.scrollTo({
@@ -90,15 +94,14 @@ class App extends React.Component {
     const { searchQuery, showModal, error, status, images, selectedImage } = this.state;
    
     return (
-      
+        /* this.state.isLoading ? <LoaderSpiner /> :  */
       <div>
-
         <Searchbar onSubmit={this.handleFormSubmit} />
          {error && <h1>{error.message}</h1>}
         {searchQuery && <ImageGallery openModal={this.openModal} images={images}/>}
         {!searchQuery && <h2>Type the name of the image</h2>}
           <ToastContainer />
-        {/* this.componentDidUpdate && */ <LoaderSpiner />}
+        <LoaderSpiner />
         
  {images.length > 0 && <Button onClick={this.onLoadMore} />}
         
