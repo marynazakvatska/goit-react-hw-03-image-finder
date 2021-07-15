@@ -18,20 +18,26 @@ class App extends React.Component {
     page: 1,
     searchQuery: '',
     error: null,
-    status: 'idle',
     selectedImage: null,
-    isLoading: true , ///!!!!
+    isLoading: false , 
     
 
   };
 
-
+ 
   componentDidUpdate(prevProps, prevState) {
- /*   this.setState({ isLoading: false })  */ //!!!!!!
+
     
   const { searchQuery, page, isLoading } = this.state;
     if (prevState.searchQuery !== searchQuery || prevState.page !== page)
-{
+    {
+     
+     console.log("1111")
+      this.setState({ isLoading: true })
+     /*  for (let i = 0; i < 10000000000; i++) {
+        i++
+      }
+      console.log("555") */
   
             
       const API_KEY = "21675881-9f2314d809854342b3af65054";
@@ -41,6 +47,7 @@ class App extends React.Component {
         .then((response) => {
           if (response.ok) {
             return response.json()
+           
           }
           return Promise.reject(
             new Error(`No image with name ${this.state.imageName}`),
@@ -50,7 +57,7 @@ class App extends React.Component {
         .then(data => data.hits)
         .then(arrayImage => this.setState(prevState => ({ images: [...prevState.images, ...arrayImage], })))
         .catch(error => this.setState({ error }))
-      
+      .finally( this.setState({ isLoading: false }))
     }
     if (prevState.images !== this.state.images) {
       window.scrollTo({
@@ -66,7 +73,7 @@ class App extends React.Component {
       page: 1,
       images: [],
       selectedImage: null,
-      status: 'idle',
+    
     });
   };
  
@@ -86,12 +93,12 @@ class App extends React.Component {
   closeModal = () => this.setState({ showModal: false });
 
   onLoadMore = () => {
-    this.setState(prevState => ({ page: prevState.page + 1 }));
+    this.setState(prevState => ({ page: prevState.page + 1 ,  isLoading: true }));
   };
 
 
   render() {
-    const { searchQuery, showModal, error, status, images, selectedImage } = this.state;
+    const { searchQuery, showModal, error, status, images, isLoading, selectedImage } = this.state;
    
     return (
         /* this.state.isLoading ? <LoaderSpiner /> :  */
@@ -101,7 +108,7 @@ class App extends React.Component {
         {searchQuery && <ImageGallery openModal={this.openModal} images={images}/>}
         {!searchQuery && <h2>Type the name of the image</h2>}
           <ToastContainer />
-        <LoaderSpiner />
+        {isLoading && <LoaderSpiner />}
         
  {images.length > 0 && <Button onClick={this.onLoadMore} />}
         
