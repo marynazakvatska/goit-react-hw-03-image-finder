@@ -12,7 +12,7 @@ export default function LoaderSpiner() {
         color="#00BFFF"
         height={120}
         width={120}
-        timeout={3000}
+        /* timeout={3000} */
       />
     </div>
   );

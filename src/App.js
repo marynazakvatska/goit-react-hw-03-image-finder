@@ -32,13 +32,10 @@ class App extends React.Component {
     if (prevState.searchQuery !== searchQuery || prevState.page !== page)
     {
      
-     console.log("1111")
-      this.setState({ isLoading: true })
-     /*  for (let i = 0; i < 10000000000; i++) {
-        i++
+    if (prevState.isLoading !== true) {
+        this.setState({ isLoading: true });
       }
-      console.log("555") */
-  
+
             
       const API_KEY = "21675881-9f2314d809854342b3af65054";
       const BASE_URL = "https://pixabay.com/api";
@@ -57,14 +54,16 @@ class App extends React.Component {
         .then(data => data.hits)
         .then(arrayImage => this.setState(prevState => ({ images: [...prevState.images, ...arrayImage], })))
         .catch(error => this.setState({ error }))
-      .finally( this.setState({ isLoading: false }))
+        .finally(() => {
+          this.setState({ isLoading: false });
+          window.scrollTo({
+            top: document.body.scrollHeight,
+            behavior: "smooth",
+          });
+        });
+
     }
-    if (prevState.images !== this.state.images) {
-      window.scrollTo({
-        top: document.body.scrollHeight,
-        behavior: 'smooth',
-      });
-    }
+   
   }
 
   resetState = () => {
